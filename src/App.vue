@@ -5,8 +5,12 @@
 </template>
 
 <style lang="scss">
+* {
+  margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+}
 body {
-  background-color: #f2f5fa;
   display: flex;
   flex-direction: column;
 }
