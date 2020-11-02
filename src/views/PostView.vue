@@ -11,11 +11,11 @@
         </div>
         <textarea  class="post-view__body" v-else v-model="postData.body">
         </textarea>
-        <div class="post-view__btns">
-          <c-button class="post-view__btns-item" @click="isRedacting = !isRedacting">Редактировать</c-button>
-          <c-button variant="success" @click="changePost">ОК</c-button>
-        </div>
       </template>
+    </div>
+    <div class="post-view__btns">
+      <c-button class="post-view__btns-item" @click="isRedacting = !isRedacting">Редактировать</c-button>
+      <c-button variant="success" @click="changePost">ОК</c-button>
     </div>
     <Comments :loading="commentsLoading" :items="comments"/>
   </div>
@@ -81,11 +81,13 @@ export default {
   flex-direction: column;
   padding: 20px;
   &-info {
-    min-height: 500px;
+    margin: 0 auto;
+    min-height: 400px;
     background-color: #ffffff;
     text-align: start;
     display: flex;
     flex-direction: column;
+    width: 600px;
   }
   &__btns {
     margin-top: 20px;
@@ -96,18 +98,17 @@ export default {
     margin-bottom: 10px;
     padding-left: 10px;
     font-weight: bold;
-    font-size: 30px;
-    height: 70px;
-
+    font-size: 40px;
+    min-height: 70px;
   }
   &__body {
-    height: 100px;
+    min-height: 100px;
     white-space: pre-wrap;
     overflow-wrap: break-word;
     letter-spacing: normal;
     word-spacing: normal;
     padding-left: 15px;
-    font-size: 18px;
+    font-size: 21px;
     resize: vertical;
   }
 }
