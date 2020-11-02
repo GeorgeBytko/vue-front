@@ -10,6 +10,9 @@
       <div class="services__list-item-body">
         {{postData.body}}
       </div>
+      <div class="services__list-item-user">
+        user ID: {{postData.userId}}
+      </div>
     </div>
     <c-button
         @click="deletePost"
@@ -44,6 +47,7 @@ export default {
 
 <style lang="scss">
 .services__list-item {
+  color: #000000;
   padding: 15px;
   display: flex;
   align-items: center;
@@ -59,6 +63,11 @@ export default {
   }
   &-body {
     color: rgba(117, 117, 117, 1);
+  }
+  &-user {
+    margin-top: 15px;
+    font-size: 13px;
+    color: rgba(41, 41, 41, 1);
   }
   &-actions {
     height: 30px;

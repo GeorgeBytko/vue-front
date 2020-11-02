@@ -4,14 +4,17 @@
       <router-link :to="{name: 'Posts'}">К постам</router-link>
       <Loader v-if="postDataLoading" />
       <template v-else>
-        <h3 v-if="!isRedacting" class="post-view__title">{{postData.title}}</h3>
-        <input v-else class="post-view__title" v-model="postData.title">
+        <h1 v-if="!isRedacting" class="post-view__title">{{postData.title}}</h1>
+        <textarea v-else class="post-view__title" v-model="postData.title"> </textarea>
         <div v-if="!isRedacting" class="post-view__body">
           {{postData.body}}
         </div>
         <textarea  class="post-view__body" v-else v-model="postData.body">
         </textarea>
-        <c-button @click="isRedacting = !isRedacting">Редактировать</c-button>
+        <div class="post-view__btns">
+          <c-button class="post-view__btns-item" @click="isRedacting = !isRedacting">Редактировать</c-button>
+          <c-button variant="success" @click="changePost">ОК</c-button>
+        </div>
       </template>
     </div>
     <Comments :loading="commentsLoading" :items="comments"/>
@@ -36,12 +39,18 @@ export default {
       commentsLoading: true,
       postData: null,
       postDataLoading: true,
-      error: null,
       isRedacting: false
     }
   },
   computed: {
 
+  },
+  methods: {
+    changePost() {
+      this.$store.dispatch('changePost', this.postData)
+        .then(() => this.$router.push({name: 'Posts'}))
+        .catch(e => console.log(e))
+    }
   },
   created() {
     this.$axios
@@ -50,16 +59,15 @@ export default {
         this.postData = res.data
         this.postDataLoading = false
       })
-      .catch(e => this.error = e)
+      .catch(e => console.log(e))
     this.$axios
       .get(`posts/${this.id}/comments`)
       .then(res => {
         this.comments = res.data
         this.commentsLoading = false
       })
+      .catch(e => console.log(e))
   },
-  mounted() {
-  }
 }
 </script>
 
@@ -68,7 +76,6 @@ export default {
   color: rgba(41, 41, 41, 1);
   width: 80%;
   margin: 10px auto;
-  background-color: #e1eafa;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -80,15 +87,28 @@ export default {
     display: flex;
     flex-direction: column;
   }
+  &__btns {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+  }
   &__title {
     margin-bottom: 10px;
     padding-left: 10px;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 30px;
+    height: 70px;
+
   }
   &__body {
-    padding: 15px;
+    height: 100px;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    letter-spacing: normal;
+    word-spacing: normal;
+    padding-left: 15px;
     font-size: 18px;
+    resize: vertical;
   }
 }
 </style>

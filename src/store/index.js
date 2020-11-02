@@ -16,6 +16,10 @@ export default new Vuex.Store({
     },
     addPost(state, post) {
       state.posts.unshift(post)
+    },
+    changePost(state, post) {
+      const index = state.posts.findIndex(item => item.id === post.id)
+      state.posts.splice(index, 1, post)
     }
   },
   getters: {
@@ -58,6 +62,20 @@ export default new Vuex.Store({
             })
             .then(res => {
               commit('addPost', res.data)
+              resolve()
+            })
+            .catch(e => reject(e))
+      })
+    },
+    changePost({ commit }, post) {
+      return new Promise((resolve, reject) => {
+        axios
+            .patch(`posts/${post.id}`, {
+              title: post.title,
+              body: post.body
+            })
+            .then((res) => {
+              commit('changePost', res.data)
               resolve()
             })
             .catch(e => reject(e))

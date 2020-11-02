@@ -27,17 +27,6 @@ import PostsList from "@/components/PostsList";
 export default {
   name: "Posts",
   components: { PostsList },
-  data() {
-    return {
-      loading: true,
-      error: false
-    };
-  },
-  computed: {
-    posts() {
-      return this.$store.getters.posts;
-    }
-  },
 
 };
 </script>

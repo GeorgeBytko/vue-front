@@ -5,7 +5,7 @@
     </div>
     <Loader v-if="loading" />
     <template v-else>
-      <PostsListItem v-for="post in posts.slice(0,10)" :post-data="post" :key="post.id"/>
+      <PostsListItem v-for="post in posts.slice(0,15)" :post-data="post" :key="post.id"/>
     </template>
   </div>
 </template>
