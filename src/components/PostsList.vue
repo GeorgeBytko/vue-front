@@ -47,6 +47,9 @@ export default {
   max-width: 740px;
   background-color: #ffffff;
   &-heading {
+    color: rgba(41, 41, 41, 1);
+    font-size: 13px;
+    font-weight: 700;
     margin-top: 20px;
     text-align: start;
     padding-left: 10px;

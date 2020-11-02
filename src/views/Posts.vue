@@ -74,13 +74,5 @@ export default {
       padding: 10px;
     }
   }
-  &__list {
-    &-heading {
-      margin-top: 20px;
-      text-align: start;
-      padding-left: 10px;
-      border-bottom: 1px solid rgba(204, 204, 204, 1);
-    }
-  }
 }
 </style>

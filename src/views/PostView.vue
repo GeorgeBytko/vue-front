@@ -65,6 +65,7 @@ export default {
 
 <style lang="scss">
 .post-view {
+  color: rgba(41, 41, 41, 1);
   width: 80%;
   margin: 10px auto;
   background-color: #e1eafa;

@@ -72,6 +72,7 @@ export default {
 
 <style lang="scss">
 .post-form {
+  color: rgba(41, 41, 41, 1);;
   display: flex;
   flex-direction: column;
   width: 500px;
