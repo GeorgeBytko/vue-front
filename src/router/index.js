@@ -20,7 +20,7 @@ const routes = [
     path: "/create/post",
     name: "PostForm",
     component: () => import('@/views/PostForm')
-  }
+  },
 ];
 
 const router = new VueRouter({

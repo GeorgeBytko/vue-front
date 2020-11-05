@@ -1,65 +1,83 @@
 <template>
-  <form @submit.prevent="addPost" class="post-form">
-    <h3>Добавление поста</h3>
-    <div class="post-form__item">
-      <label for="add-post-user" class="post-form__item-label">
-        ID пользователя
-      </label>
-      <input
-          v-model="userId"
-          type="number"
-          id="add-post-user"
-          class="post-form__item-input">
-    </div>
-    <div class="post-form__item">
-      <label for="add-post-title" class="post-form__item-label">
-        Заголовок
-      </label>
-      <input
-          v-model="title"
-          id="add-post-title" class="post-form__item-input">
-    </div>
-    <div class="post-form__item">
-      <label for="add-post-body" class="post-form__item-label">
-        Содержание
-      </label>
-      <textarea
-          v-model="body"
-          class="post-form__item-textarea"
-          id="add-post-body"></textarea>
-    </div>
-
-    <div class="post-form__btns">
-      <c-button variant="success" type="submit">Добавить</c-button>
-      <c-button variant="danger" type="button" @click="clearForm">Очистить</c-button>
-    </div>
-    <router-link :to="{name: 'Posts'}">Вернуться к постам</router-link>
-  </form>
+  <v-sheet class="px-10 ma-auto mt-5" max-width="800">
+    <v-form @submit.prevent="addPost">
+      <div class="text-center">
+        <h3>Добавление поста</h3>
+      </div>
+      <div class="mt-3">
+        <v-text-field
+            v-model="userId"
+            type="number"
+            label="ID пользователя"
+        >
+        </v-text-field>
+      </div>
+      <div class="mt-1">
+        <v-text-field
+            v-model="title"
+            label="Заголовок"
+        >
+        </v-text-field>
+      </div>
+      <div class="mt-1">
+        <v-textarea
+            v-model="body"
+            label="Содержание"
+        >
+        </v-textarea>
+      </div>
+      <v-row no-gutters dense class="pa-2" justify="end">
+        <v-btn
+            :loading="isDataSent"
+            :disabled="!isDataValid || isDataSent"
+            color="success"
+            class="mr-5 text--white"
+            type="submit"
+        >
+          Добавить
+        </v-btn>
+        <v-btn
+            :disabled="isDataSent"
+            color="error"
+            type="button"
+            @click="clearForm"
+        >
+          Очистить
+        </v-btn>
+      </v-row>
+      <div class="mt-2 text-center">
+        <router-link :to="{name: 'Posts'}">Вернуться к постам</router-link>
+      </div>
+    </v-form>
+  </v-sheet>
 </template>
 
 <script>
-import CButton from "@/components/c-button";
 export default {
   name: "PostForm",
-  components: {CButton},
   data() {
     return {
       title: '',
       body: '',
-      userId: 1
+      userId: 1,
+      isDataSent: false
     }
   },
   computed: {
-
+    isDataValid() {
+      return this.title && this.body && this.userId > 0
+    }
   },
   methods: {
     addPost() {
+      this.isDataSent = true
       this.$store.dispatch('addPost', {
         title: this.title,
         body: this.body,
         userId: this.userId
       })
       .then(() => this.$router.push({name: 'Posts'}))
+      .finally(() => this.isDataSent = false)
     },
     clearForm() {
       this.title = ''
@@ -69,35 +87,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.post-form {
-  color: rgba(41, 41, 41, 1);;
-  display: flex;
-  flex-direction: column;
-  width: 500px;
-  background-color: #ffffff;
-  margin: 10% auto;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 5px #a59a9a;
-  &__btns {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
-  }
-  &__item {
-    margin-bottom: 15px;
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-    &-label {
-      margin-right: 5px;
-    }
-    &-textarea {
-      width: 400px;
-      resize: vertical;
-    }
-  }
-}
-</style>

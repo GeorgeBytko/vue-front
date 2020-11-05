@@ -1,67 +1,71 @@
 <template>
-  <div class="posts">
-    <div class="posts__tools">
-      <div class="posts__toolbar">
-        <div class="posts__toolbar-back">
-          На главную
-        </div>
-        <div class="posts__toolbar-title">
-          Цены на диагностику
-        </div>
-        <router-link
-            :to="{ name: 'PostForm' }"
-            class="posts__toolbar-add">
-          +
-        </router-link>
+  <v-sheet>
+    <v-btn
+        class="mx-2 posts__add-btn"
+        fab
+        color="success"
+        fixed
+        :to="{name: 'PostForm'}"
+    >
+      <v-icon>
+        mdi-plus
+      </v-icon>
+    </v-btn>
+    <v-sheet>
+      <div class="text-center" v-if="loading">
+        <v-progress-circular
+            indeterminate
+            color="primary"
+            size="70"
+        ></v-progress-circular>
       </div>
-      <div class="posts__search">
-        <input class="posts__search-input" type="text" />
-      </div>
-    </div>
-    <PostsList />
-  </div>
+      <v-row dense v-else>
+        <v-col
+            v-for="(post) in posts.slice(0,15)"
+            :key="post.id"
+            cols="12"
+            class="mb-5"
+        >
+          <PostsItem :post="post" />
+        </v-col>
+      </v-row>
+    </v-sheet>
+
+  </v-sheet>
 </template>
 
 <script>
-import PostsList from "@/components/PostsList";
+import PostsItem from "@/components/PostsItem";
 export default {
   name: "Posts",
-  components: { PostsList },
-
+  components: {PostsItem },
+  data() {
+    return {
+      loading: true
+    };
+  },
+  computed: {
+    posts() {
+      return this.$store.getters.posts;
+    }
+  },
+  created() {
+    if (!this.posts.length) {
+      this.$store
+          .dispatch("getPosts")
+          .then(() => (this.loading = false))
+          .catch(() => (this.error = true));
+    }
+    else {
+      this.loading = false
+    }
+  }
 };
 </script>
-<style lang="scss">
-.posts {
-  width: 80%;
-  margin: 10px auto;
-  flex: 1;
-  &__tools {
-    background-color: #ffffff;
-    padding: 10px;
-  }
-  &__toolbar {
-    padding: 0 20px;
-    display: flex;
-    justify-content: space-between;
-    font-weight: bold;
-    &-back {
-    }
-    &-add {
-      text-decoration: none;
-      color: black;
-    }
-  }
-  &__search {
-    margin-top: 20px;
-    width: 100%;
-    padding: 0 10px;
-    display: flex;
-    justify-content: center;
-    &-input {
-      width: 75%;
-      height: 30px;
-      padding: 10px;
-    }
-  }
+<style>
+.posts__add-btn {
+  position: fixed;
+  bottom: 50px;
+  right: 20px;
 }
 </style>

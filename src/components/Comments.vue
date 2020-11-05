@@ -1,20 +1,39 @@
 <template>
-  <div class="comments">
-    <h3 class="comments__title">Комментарии</h3>
-    <Loader v-if="loading">
-    </Loader>
-    <div class="comments__list" v-else>
-      <Comment v-for="comment in items" :key="comment.id" :comment-data="comment"/>
+  <v-card flat >
+    <v-card-title>
+      <h3>Комментарии</h3>
+    </v-card-title>
+    <v-divider></v-divider>
+    <div class="mt-3 text-center" v-if="loading">
+      <v-progress-circular
+          indeterminate
+          color="primary"
+          size="70"
+      ></v-progress-circular>
     </div>
-  </div>
+    <v-container class="pl-5" v-else>
+      <v-card
+          flat
+          v-for="comment in items"
+          :key="comment.id"
+          class="text-left"
+      >
+        <v-card-title>
+          <h4>
+            {{comment.name}}
+          </h4>
+        </v-card-title>
+        <v-card-text class="text--primary pl-10">
+          {{comment.body}}
+        </v-card-text>
+      </v-card>
+    </v-container>
+  </v-card>
 </template>
 
 <script>
-import Comment from "@/components/Comment";
-import Loader from "@/components/Loader";
 export default {
   name: "Comments",
-  components: {Loader, Comment},
   props: {
     loading: {
       type: Boolean,
@@ -27,14 +46,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.comments {
-  &__title {
-    text-align: start;
-  }
-  &__list {
-    padding: 10px;
-  }
-}
-</style>
